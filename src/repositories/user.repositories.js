@@ -3,15 +3,15 @@ import db from "../config/database.js";
 db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT UNIQUE NOT NULL,
-      email TEXT UNIQUE NOT NULL,
+      username TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
       avatar TEXT
     )
   `);
 
 function createUserRepository(newUser) {
-  return new Promise((res, rej) => {
+  return new Promise((resolve, reject) => {
     const { username, email, password, avatar } = newUser;
     db.run(
       `
@@ -21,9 +21,9 @@ function createUserRepository(newUser) {
       [username, email, password, avatar],
       (err) => {
         if(err) {
-          rej(err)
+          reject(err)
         } else {
-          res({message: 'User created'})
+          resolve({id: this.lastID, ...newUser})
         }
       }
     );
