@@ -25,7 +25,6 @@ function sendEmail(email, bookTitle, dueDate) {
     `,
   };
 
-  console.log(mailOptions)
 
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {

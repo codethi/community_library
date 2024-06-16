@@ -9,29 +9,13 @@ import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post(
-  "/users",
-  validate(userSchema),
-  userControrller.createUserController
-);
-router.post("/users/login", userControrller.loginUserController);
+router.post("/", validate(userSchema), userControrller.createUserController);
+router.post("/login", userControrller.loginUserController);
 
 router.use(authMiddleware);
-router.get("/users", userControrller.findAllUserController);
-router.get(
-  "/users/:id",
-  validateUserId,
-  userControrller.findUserByIdController
-);
-router.patch(
-  "/users/:id",
-  validateUserId,
-  userControrller.updateUserController
-);
-router.delete(
-  "/users/:id",
-  validateUserId,
-  userControrller.deleteUserController
-);
+router.get("/", userControrller.findAllUserController);
+router.get("/:id", validateUserId, userControrller.findUserByIdController);
+router.patch("/:id", validateUserId, userControrller.updateUserController);
+router.delete("/:id", validateUserId, userControrller.deleteUserController);
 
 export default router;
